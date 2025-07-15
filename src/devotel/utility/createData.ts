@@ -1,39 +1,18 @@
-import { ConfigService } from '@nestjs/config';
+import { ConfigService } from "@nestjs/config";
 
-export let createDataForReviewCommentsRequest = (
-  cruel_hotel_id: number,
-  config: ConfigService,
-) => {
+export let createDataForReviewCommentsRequest = (config: ConfigService) => {
   let data = {
-    hotelId: cruel_hotel_id,
-    demographicId: 0,
     page: 1,
     pageSize: 5,
     sorting: 7,
-    isReviewPage: false,
-    isCrawlablePage: false,
+
     filters: {
       language: [],
       room: [],
     },
-    searchKeyword: '',
+    searchKeyword: "",
     searchFilters: [],
   };
-  let url = config.get<string>('AgodaComments');
-  return { data, url };
-};
-
-export let createDataForHotelReviewsRequest = (
-  cruel_hotel_id: number,
-  config: ConfigService,
-) => {
-  let data = {
-    hotelId: cruel_hotel_id,
-    demographicId: 0,
-    pageNo: 1,
-    pageSize: 5,
-    sorting: 7,
-  };
-  let url = config.get<string>('AgodaReviews');
+  let url = config.get<string>("jobs");
   return { data, url };
 };

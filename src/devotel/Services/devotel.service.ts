@@ -49,8 +49,7 @@ export class DevotelService {
   }
 
   async saveJobs(jobs: UnifiedJobDto[]): Promise<JobEntity[]> {
-    let allQuery: JobEntity[] = [];
-    // let allQuery:[]JobEntity =[]
+    const allQuery: JobEntity[] = [];
     for (const job of jobs) {
       const exists = await this.jobRepo.findOne({ where: { id: job.id } });
       if (exists) {

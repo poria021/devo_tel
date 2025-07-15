@@ -61,3 +61,6 @@ Environment-based configuration: Cron frequency, queue concurrency, and API endp
 
 Duplicate handling: Implemented checks using unique constraints and upsert logic to avoid storing duplicates during periodic fetches.
 Github Url : https://github.com/poria021/devo_tel
+
+for run E2E test : npm run test:e2e devotel.e2e
+for run unit test : npm run test:watch corn

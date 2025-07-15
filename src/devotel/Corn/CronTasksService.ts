@@ -13,28 +13,28 @@ import { JobFetchService } from "../Services/JobFetch.service";
 export class CornServices {
   constructor(
     private queue: JobsQueueProducer,
-    private config: ConfigService, // let cronExpression:number=3
+    private config: ConfigService,
     private readonly schedulerRegistry: SchedulerRegistry,
     private jobFetchService: JobFetchService
   ) {
     const time = this.config.get<string>("CRON_SCHEDULE") || "*/20 * * * * *";
     const job = new CronJob(time, () => {
-      this.handleHotelComments();
+      this.handlejobs();
     });
 
-    this.schedulerRegistry.addCronJob("hotel-comments-job", job);
+    this.schedulerRegistry.addCronJob("api-job", job);
     job.start();
 
-    this.logger.log(`Hotel comments cron job started with expression: ${time}`);
+    this.logger.log(`Jobs cron job started with expression: ${time}`);
   }
 
   private readonly logger = new Logger(ConfigService.name);
 
-  async handleHotelComments() {
+  async handlejobs() {
     try {
       let jobs = await this.jobFetchService.fetchAllJobs();
-      if (jobs.length > 0) await this.queue.addJobs(jobs);
-      this.logger.debug("Called @Cron every 1Minute ", jobs.length);
+      if (jobs?.length > 0) await this.queue.addJobs(jobs);
+      this.logger.debug("Called @Cron every 1Minute ", jobs);
     } catch (error) {
       //we can log all error in ELK or something else
       this.logger.error("error in Calling Api And @Cron  : ", error);
