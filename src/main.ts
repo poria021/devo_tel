@@ -11,7 +11,7 @@ require("dotenv").config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    // logger: new EmojiLogger(),//
+    // logger: new EmojiLogger(), //
   });
   (app as any).set("etag", false);
   app.use((req, res, next) => {

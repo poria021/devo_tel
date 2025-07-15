@@ -15,6 +15,8 @@ import { log } from "console";
 export class DevotelController {
   constructor(private devService: DevotelService) {}
 
+  // ***** Tip ***** Please make sure to read the README.md file for setup instructions and details.
+
   //for calling this api use this url
   //http://localhost:8000/devotel/api/job-offers?title=Backend Engi&location=New York, TX&salaryMax=116000&skills=["JavaScript","Node.js"]
 

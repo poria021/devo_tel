@@ -59,7 +59,7 @@ import { JobEntity } from "./devotel/Entity/Job.entity";
         database: config.get("database_postgres"),
         entities: [JobEntity],
         // synchronize: true,
-        // logging: true,
+        logging: true,
       }),
       inject: [ConfigService],
     }),
