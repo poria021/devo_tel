@@ -1,7 +1,12 @@
 // job.entity.ts
-import { Entity, Column, PrimaryColumn } from "typeorm";
+import { Entity, Column, PrimaryColumn, Index } from "typeorm";
 import { Default } from "./default.entity";
-
+@Index("idx_jobs_title_location_salary", [
+  "title",
+  "location",
+  "salaryMin",
+  "salaryMax",
+]) //  add index for improve query performance,
 @Entity("jobs")
 export class JobEntity extends Default {
   @Column()

@@ -1,4 +1,5 @@
 import { HttpService } from "@nestjs/axios";
+import { BadRequestException } from "@nestjs/common";
 import { log } from "console";
 import { catchError, lastValueFrom, map, of, timeout } from "rxjs";
 
@@ -15,8 +16,7 @@ export let getFromServe = async (
         return res.data;
       }),
       catchError((err) => {
-        log(err.message);
-        return of(err);
+        throw new BadRequestException(err.message);
       })
     )
   );

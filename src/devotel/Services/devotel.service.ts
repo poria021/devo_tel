@@ -3,7 +3,6 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { UnifiedJobDto } from "src/DTO/UnifiedJobDto";
 import { JobEntity } from "../Entity/Job.entity";
 import { Repository } from "typeorm";
-import { log } from "console";
 import {
   IPaginationOptions,
   paginate,
@@ -21,10 +20,6 @@ export class DevotelService {
   async getAllJobs(
     options: IPaginationOptions,
     query: JobOfferDto
-    // title: string,
-    // location: string,
-    // min_salary: number,
-    // max_salary: number
   ): Promise<Pagination<JobEntity>> {
     const queryBuilder = this.jobRepo.createQueryBuilder("jobs");
     if (query.id) queryBuilder.where("jobs.id = :params", { params: query.id });
@@ -53,7 +48,9 @@ export class DevotelService {
     return paginate<JobEntity>(queryBuilder, options);
   }
 
-  async saveJobs(jobs: UnifiedJobDto[]): Promise<JobEntity> {
+  async saveJobs(jobs: UnifiedJobDto[]): Promise<JobEntity[]> {
+    let allQuery: JobEntity[] = [];
+    // let allQuery:[]JobEntity =[]
     for (const job of jobs) {
       const exists = await this.jobRepo.findOne({ where: { id: job.id } });
       if (exists) {
@@ -76,8 +73,11 @@ export class DevotelService {
         source: job.source,
       });
 
-      return this.jobRepo.save(jobEntity);
+      //We can either save each job individually or batch them into an array and
+      // save them all at once, depending on our API design and the volume of data.
+      allQuery.push(jobEntity);
     }
+    return this.jobRepo.save(allQuery);
   }
 
   private parseSalary(salaryStr: string): {

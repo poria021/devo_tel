@@ -1,13 +1,6 @@
-import { Type } from "class-transformer";
-import { IsNumber, IsOptional, IsString } from "class-validator";
-import { Index } from "typeorm";
+import { Transform, Type } from "class-transformer";
+import { IsArray, IsNumber, IsOptional, IsString } from "class-validator";
 
-@Index("idx_jobs_title_location_salary", [
-  "title",
-  "location",
-  "salaryMin",
-  "salaryMax",
-]) //  add index for improve query performance,
 export class JobOfferDto {
   @IsOptional()
   @IsString()
@@ -30,4 +23,12 @@ export class JobOfferDto {
   @IsOptional()
   @IsString()
   id: string;
+
+  @IsOptional()
+  @Transform(({ value }) => {
+    if (typeof value === "string") return JSON.parse(value);
+    else return value;
+  })
+  @IsArray()
+  skills: string[];
 }

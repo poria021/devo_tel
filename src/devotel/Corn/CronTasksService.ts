@@ -12,7 +12,6 @@ import { JobFetchService } from "../Services/JobFetch.service";
 @Injectable()
 export class CornServices {
   constructor(
-    private devotelServices: DevotelService,
     private queue: JobsQueueProducer,
     private config: ConfigService, // let cronExpression:number=3
     private readonly schedulerRegistry: SchedulerRegistry,
@@ -33,12 +32,12 @@ export class CornServices {
 
   async handleHotelComments() {
     try {
-      // if (this.config.get<string>("isDonwloadComments") == "true") {
-      // let jobs = await this.jobFetchService.fetchAllJobs();
-      // if (jobs.length > 0) await this.queue.addJobs(jobs);
-      // this.logger.debug("Called @Cron every 1Minute ", jobs.length);
+      let jobs = await this.jobFetchService.fetchAllJobs();
+      if (jobs.length > 0) await this.queue.addJobs(jobs);
+      this.logger.debug("Called @Cron every 1Minute ", jobs.length);
     } catch (error) {
-      this.logger.error("error in  @Cron  : ", error);
+      //we can log all error in ELK or something else
+      this.logger.error("error in Calling Api And @Cron  : ", error);
     }
   }
 }

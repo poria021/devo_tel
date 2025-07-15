@@ -8,13 +8,19 @@ import {
 import { DevotelService } from "./Services/devotel.service";
 import { Pagination } from "nestjs-typeorm-paginate";
 import { JobEntity } from "./Entity/Job.entity";
-import { JobOfferDto } from "src/DTO/JobOfferDto";
+import { JobOfferDto } from "../DTO/JobOfferDto";
+import { log } from "console";
 
 @Controller("devotel")
 export class DevotelController {
   constructor(private devService: DevotelService) {}
 
-  //http://localhost:8000/devotel/api/job-offers?id=job-640&title=Backend Engi&location=San Francisco, TX&salaryMin=59000&salaryMax=116000
+  //for calling this api use this url
+  //http://localhost:8000/devotel/api/job-offers?title=Backend Engi&location=New York, TX&salaryMax=116000&skills=["JavaScript","Node.js"]
+
+  // ***** Tip *****   for testing DTO and message handling
+  //If you use this parm you will should get error : salaryMin=if you use this param you will should get error 59000K. or skills=["JavaScript","Node.js" .
+
   @Get("/api/job-offers")
   gteContentFaqs(
     @Query("page", new DefaultValuePipe(1), ParseIntPipe) page = 1,
